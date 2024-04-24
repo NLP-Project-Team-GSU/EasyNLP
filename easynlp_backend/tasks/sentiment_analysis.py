@@ -3,6 +3,7 @@ from textblob import TextBlob
 
 sentiment_analysis_bp = Blueprint('sentiment_analysis', __name__)
 
+
 @sentiment_analysis_bp.route('/sentiment_analysis', methods=['POST'])
 def sentiment_analysis():
     text = request.json['text']
