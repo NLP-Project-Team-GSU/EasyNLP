@@ -2,9 +2,10 @@ from langdetect import detect
 from nltk.tokenize import word_tokenize
 
 
-# Common function for language detection
 def detect_language(text):
     try:
+        if not text.strip():
+            return None, "Text is empty"
         language = detect(text)
         if language != 'en':
             return None, "Only English text is supported"

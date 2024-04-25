@@ -1,10 +1,12 @@
 from flask import Flask
 
+from tasks import remove_stopwords, tokenization, stemming, lowercasing, lemmatization, pos_tagging, \
+    handle_contractions, word_freq_analysis
 from tasks.common_checks import detect_language, check_word_count
-from tasks.remove_punctuation import remove_punctuation_bp
-from tasks.sentiment_analysis import sentiment_analysis_bp
-from tasks.word_cloud import word_cloud_bp
-from tasks.ner import ner_bp
+from tasks.remove_text_outliers import remove_text_outliers
+from tasks.sentiment_analysis import sentiment_analysis
+from tasks.word_cloud import word_cloud
+from tasks.ner import ner
 
 app = Flask(__name__)
 
@@ -14,11 +16,19 @@ app = Flask(__name__)
 def inject_common_functions():
     return dict(detect_language=detect_language, check_word_count=check_word_count)
 
+app.register_blueprint(tokenization)
+app.register_blueprint(lowercasing)
+app.register_blueprint(remove_stopwords)
+app.register_blueprint(remove_text_outliers)
+app.register_blueprint(lemmatization)
+app.register_blueprint(stemming)
+app.register_blueprint(handle_contractions)
+app.register_blueprint(pos_tagging)
+app.register_blueprint(ner)
+app.register_blueprint(sentiment_analysis)
+app.register_blueprint(word_cloud)
+app.register_blueprint(word_freq_analysis)
 
-app.register_blueprint(remove_punctuation_bp)
-app.register_blueprint(sentiment_analysis_bp)
-app.register_blueprint(word_cloud_bp)
-app.register_blueprint(ner_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)
