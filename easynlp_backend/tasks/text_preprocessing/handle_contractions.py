@@ -76,5 +76,5 @@ def expand_contractions(text):
 def handle_contractions():
     text = request.json.get('text')
     expanded_text = expand_contractions(text)
-    return jsonify({'expanded_text': expanded_text})
+    return jsonify(expanded_text)
 

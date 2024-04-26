@@ -4,6 +4,8 @@
 */node_modules
 /.pnp
 .pnp.js
+*/*/__pycache__
+*/*/*/__pycache__
 
 # testing
 /coverage
@@ -21,3 +23,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+easynlp_backend/tasks/__pycache__/common_checks.cpython-37.pyc
+easynlp_backend/tasks/nlp/__pycache__/ner.cpython-37.pyc
