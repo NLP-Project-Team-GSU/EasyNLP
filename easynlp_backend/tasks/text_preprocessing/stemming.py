@@ -4,10 +4,10 @@ from nltk.stem import PorterStemmer
 
 ps = PorterStemmer()
 
-stemming = Blueprint('stem', __name__)
+stemming_bp = Blueprint('stemming_bp', __name__)
 
 
-@stemming.route('/stem', methods=['POST'])
+@stemming_bp.route('/stem', methods=['POST'])
 def stem_text():
     text = request.json.get('text')
     tokens = word_tokenize(text)

@@ -4,10 +4,10 @@ from nltk.tokenize import word_tokenize
 
 lemmatizer = WordNetLemmatizer()
 
-lemmatization = Blueprint('word_cloud', __name__)
+lemmatization_bp = Blueprint('lemmatization_bp', __name__)
 
 
-@lemmatization.route('/lemmatization', methods=['POST'])
+@lemmatization_bp.route('/lemmatization', methods=['POST'])
 def generate_word_cloud():
     text = request.json.get('text')
     tokens = word_tokenize(text)

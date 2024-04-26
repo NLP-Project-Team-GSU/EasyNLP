@@ -62,7 +62,7 @@ contractions_dict = {
 # Regular expression pattern to match contractions
 contractions_pattern = re.compile(r'\b(' + '|'.join(contractions_dict.keys()) + r')\b')
 
-handle_contractions = Blueprint('handle_contractions', __name__)
+handle_contractions_bp = Blueprint('handle_contractions_bp', __name__)
 
 
 def expand_contractions(text):
@@ -72,7 +72,7 @@ def expand_contractions(text):
     return contractions_pattern.sub(replace, text)
 
 
-@handle_contractions.route('/handle_contractions', methods=['POST'])
+@handle_contractions_bp.route('/handle_contractions', methods=['POST'])
 def handle_contractions():
     text = request.json.get('text')
     expanded_text = expand_contractions(text)

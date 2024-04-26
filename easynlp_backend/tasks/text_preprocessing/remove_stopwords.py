@@ -3,10 +3,11 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import nltk
 
-nltk.download('punkt')
-nltk.download('stopwords')
+# Add path to included NLTK data directory
+nltk_data_path = '/nltk_data'
+nltk.data.path.append(nltk_data_path)
 
-remove_stopwords_bp = Blueprint('remove_stopwords', __name__)
+remove_stopwords_bp = Blueprint('remove_stopwords_bp', __name__)
 
 
 @remove_stopwords_bp.route('/remove_stopwords', methods=['POST'])
