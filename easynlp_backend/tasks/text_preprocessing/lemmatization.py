@@ -13,4 +13,4 @@ def generate_word_cloud():
     tokens = word_tokenize(text)
     lemmatized_tokens = [lemmatizer.lemmatize(word) for word in tokens]
     lemmatized_text = ' '.join(lemmatized_tokens)
-    return jsonify({'lemmatized_text': lemmatized_text})
+    return jsonify(lemmatized_text)

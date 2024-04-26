@@ -7,4 +7,4 @@ lowercasing_bp = Blueprint('lowercasing_bp', __name__)
 def lowercase_text():
     text = request.json.get('text')
     lowercased_text = text.lower()
-    return jsonify({'lowercased_text': lowercased_text})
+    return jsonify(lowercased_text)

@@ -14,5 +14,17 @@ def generate_word_cloud():
     wordcloud.to_image().save(image_stream, format='PNG')
     image_stream.seek(0)
 
-    # Return the byte stream as an image file
-    return send_file(image_stream, mimetype='image/png')
+    # Save the byte stream contents to a file
+    with open('wordcloud.png', 'wb') as f:
+        f.write(image_stream.getvalue())
+
+    # Return a response indicating successful image generation
+    return 'Word cloud image generated successfully'
+
+@word_cloud_bp.route('/word_cloud_image', methods=['GET'])
+def get_word_cloud_image():
+    # Load the saved image file
+    image_path = 'wordcloud.png'
+
+    # Return the image file
+    return send_file(image_path, mimetype='image/png')
