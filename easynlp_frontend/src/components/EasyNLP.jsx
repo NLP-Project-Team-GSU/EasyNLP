@@ -18,6 +18,19 @@ import ListItemText from "@mui/material/ListItemText";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 const drawerWidth = 240;
 
@@ -78,6 +91,21 @@ export default function PersistentDrawerLeft() {
     { text: "Stopword Removal", key: "remove_stopwords" },
     { text: "Lowercasing", key: "lowercasing" },
     { text: "Contractions", key: "handle_contractions" },
+    { text: "Stemming", key: "stem" },
+    { text: "Lemmitization", key: "lemmatization" },
+    { text: "Remove Text Outliers", key: "remove_text_outliers" },
+    { text: "Stemming", key: "stem" },
+  ];
+  const group2 = [
+    { text: "Counting Word Frequencies", key: "word_freq_analysis" },
+    { text: "Visualizing Word Frequencies", key: "word_cloud" },
+  ];
+  const group3 = [
+    { text: "POS Tagging", key: "pos_tagging" },
+    { text: "Sentiment Analysis", key: "sentiment_analysis" },
+  ];
+  const group4 = [
+    { text: "Named Entity Recognition", key: "ner" },
   ];
   const [selectedText, setSelectedText] = React.useState(group1[0]);
 
@@ -114,7 +142,9 @@ export default function PersistentDrawerLeft() {
       })
       .then(function (response) {
         console.log(response);
-        setOutput(response.data);
+        selectedText.key === "word_cloud"
+          ? setImage(response.data)
+          : setOutput(JSON.stringify(response.data));
       })
       .catch(function (error) {
         console.log(error);
@@ -197,6 +227,8 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        <Typography variant="h6">Text Preprocessing</Typography>
+        <Divider />
         <List>
           {group1.map((item, index) => (
             <ListItem key={item.key} disablePadding>
@@ -214,23 +246,61 @@ export default function PersistentDrawerLeft() {
           ))}
         </List>
         <Divider />
+        <Typography variant="h6">Word Frequency</Typography>
+        <Divider />
         <List>
-          {["Counting Word Frequencies", "Visualizing Word Frequencies"].map(
-            (text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton
-                  onClick={() => setSelectedText(text)}
-                  selected={text === selectedText}
-                >
-                  {text === selectedText ? (
-                    <ListItemText primary={text} />
-                  ) : (
-                    <ListItemText secondary={text} />
-                  )}
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
+          {group2.map((item, index) => (
+            <ListItem key={item.key} disablePadding>
+              <ListItemButton
+                onClick={() => setSelectedText(item)}
+                selected={item.text === selectedText.text}
+              >
+                {item.text === selectedText.text ? (
+                  <ListItemText primary={item.text} />
+                ) : (
+                  <ListItemText secondary={item.text} />
+                )}
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <Typography variant="h6">Sentiment Analysis</Typography>
+        <Divider />
+        <List>
+          {group3.map((item, index) => (
+            <ListItem key={item.key} disablePadding>
+              <ListItemButton
+                onClick={() => setSelectedText(item)}
+                selected={item.text === selectedText.text}
+              >
+                {item.text === selectedText.text ? (
+                  <ListItemText primary={item.text} />
+                ) : (
+                  <ListItemText secondary={item.text} />
+                )}
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <Typography variant="h6">Entity Recognition</Typography>
+        <Divider />
+        <List>
+          {group4.map((item, index) => (
+            <ListItem key={item.key} disablePadding>
+              <ListItemButton
+                onClick={() => setSelectedText(item)}
+                selected={item.text === selectedText.text}
+              >
+                {item.text === selectedText.text ? (
+                  <ListItemText primary={item.text} />
+                ) : (
+                  <ListItemText secondary={item.text} />
+                )}
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </Drawer>
       <Main open={open}>
@@ -268,20 +338,30 @@ export default function PersistentDrawerLeft() {
                 variant="standard"
                 onChange={(e) => setInput(e.target.value)}
               />
+              <div style={{ display: "flex", marginTop: "10px", justifyContent: "space-between" }}>
               <Button
-                style={{ width: "50%", left: "50%", marginTop: "10px" }}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload file
+                <VisuallyHiddenInput type="file" />
+              </Button>
+              <Button
+                style={{ width: "50%" }}
                 variant="contained"
                 size="medium"
                 onClick={() => handleAnalyze()}
               >
                 Analyze
               </Button>
+              </div>
+              
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <Typography
-                style={{ right: "40%", position: "relative" }}
-              ></Typography>
-              {selectedText === "Visualizing Word Frequencies" && image ? (
+              {selectedText.key === "word_cloud" && image ? (
                 <img
                   width={500}
                   height={300}
